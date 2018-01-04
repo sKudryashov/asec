@@ -3,14 +3,14 @@ package finfo
 import (
 	"encoding/json"
 
-	cache "github.com/bluele/gcache"
+	cache "github.com/sKudryashov/asec/fileserver/internal/cache"
 	model "github.com/sKudryashov/asec/fileserver/internal/platform"
 	storage "github.com/sKudryashov/asec/fileserver/internal/platform/sqlite"
 )
 
 // Service manage storing and retreiving file info from storage
 type Service struct {
-	cache cache.Cache
+	cache *cache.Cache
 }
 
 const (
@@ -20,8 +20,7 @@ const (
 // NewFinfoService return ready for usage FinfoService
 func NewFinfoService() *Service {
 	s := new(Service)
-	//TODO: wrap with my struct
-	s.cache = cache.New(cacheSize).Build()
+	s.cache = cache.New()
 	return s
 }
 
@@ -33,16 +32,7 @@ func (s *Service) SaveFileInfo(data []byte) error {
 	if err != nil {
 		return err
 	}
-
-	infocache, err := s.cache.GetIFPresent("finfos")
-	if err != nil {
-		// return
-		//TODO: add first data set
-	}
-	_, ok := infocache.([]*model.FileInfo)
-	if !ok {
-		panic("wrong cached data type")
-	}
+	s.cache.Set(&finfo)
 	err = storage.Save(&finfo)
 	if err != nil {
 		return err
@@ -53,14 +43,6 @@ func (s *Service) SaveFileInfo(data []byte) error {
 
 // GetFileInfo returns file info
 func (s *Service) GetFileInfo() ([]byte, error) {
-	infocache, err := s.cache.GetALL()
-	for key, value := range infocache {
-
-	}
-	info, ok := infocache.([]*model.FileInfo)
-	if !ok {
-		panic("wrong cached data type")
-	}
-	json.Marshal(&info)
-
+	infocache := s.cache.GetAll()
+	return json.Marshal(&infocache)
 }
