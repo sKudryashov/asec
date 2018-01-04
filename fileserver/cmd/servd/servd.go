@@ -30,6 +30,7 @@ func StartServer(port int, autoTLS bool) error {
 }
 
 func addHandlers(e *echo.Echo) {
-	e.GET("/", GetFileData)
-	e.POST("/", AddFileData)
+	h := newHandler()
+	e.GET("/", h.GetFileData)
+	e.POST("/", h.AddFileData)
 }

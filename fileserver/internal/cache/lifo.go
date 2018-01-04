@@ -3,7 +3,6 @@ package cache
 import (
 	"sync"
 
-	lfu "github.com/dgrijalva/lfu-go"
 	model "github.com/sKudryashov/asec/fileserver/internal/platform"
 )
 
@@ -11,14 +10,13 @@ const (
 	cacheLength = 10
 )
 
-//Cache performs simple LIFO cache
+// Cache performs simple LIFO cache
 type Cache struct {
-	driver  *lfu.Cache
 	storage []*model.FileInfo
 	mu      sync.Mutex
 }
 
-//New returns new LIFO Cache
+// New returns new LIFO Cache
 func New() *Cache {
 	c := new(Cache)
 	c.storage = make([]*model.FileInfo, 0, cacheLength+5)

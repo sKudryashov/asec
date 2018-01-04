@@ -1,8 +1,12 @@
-hash: 319bc68afefaaba24a7ae31d0e0bfd715ad2c7fa5b3f390618308e2ce7047445
-updated: 2018-01-04T13:56:23.920455+02:00
+hash: 54a2a74fa49ef87b752c44df4aef64132ef717e4e46c1ea3cd7933ad53350ef3
+updated: 2018-01-04T23:25:26.285384+02:00
 imports:
 - name: github.com/dgrijalva/jwt-go
   version: dbeaa9332f19a944acb5736b4456cfcc02140e29
+- name: github.com/dgrijalva/lfu-go
+  version: f174e76c51386cff92107da6dd55ec07e270ff70
+- name: github.com/inconshreveable/mousetrap
+  version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
 - name: github.com/labstack/echo
   version: cec7629194fe4bf83b0c72d9a02d340c7a1468ac
   subpackages:
@@ -18,10 +22,14 @@ imports:
   version: 5411d3eea5978e6cdc258b30de592b60df6aba96
 - name: github.com/mattn/go-isatty
   version: 57fdcb988a5c543893cc61bce354a6e24ab70022
+- name: github.com/mattn/go-sqlite3
+  version: ed69081a91fd053f17672236b0dd52ba7485e1a3
 - name: github.com/spf13/cobra
   version: 7b2c5ac9fc04fc5efafb60700713d4fa609b777b
   subpackages:
   - cobra
+- name: github.com/spf13/pflag
+  version: 97afa5e7ca8a08a383cb259e06636b5e2cc7897f
 - name: github.com/valyala/bytebufferpool
   version: e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7
 - name: github.com/valyala/fasttemplate

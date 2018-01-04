@@ -8,23 +8,29 @@ import (
 	storage "github.com/sKudryashov/asec/fileserver/internal/platform/sqlite"
 )
 
-// Service manage storing and retreiving file info from storage
-type Service struct {
-	cache *cache.Cache
-}
-
 const (
 	cacheSize = 10
 )
+
+// Service manage storing and retreiving file info from storage
+type Service struct {
+	cache   *cache.Cache
+	storage *storage.Storage
+}
+
+var getStorage = func() *storage.Storage {
+	return storage.NewStorage()
+}
 
 // NewFinfoService return ready for usage FinfoService
 func NewFinfoService() *Service {
 	s := new(Service)
 	s.cache = cache.New()
+	s.storage = getStorage()
 	return s
 }
 
-//SaveFileInfo validates and saves file info in the storage
+// SaveFileInfo validates and saves file info in the storage
 func (s *Service) SaveFileInfo(data []byte) error {
 	// read file info here into byte stream
 	finfo := model.FileInfo{}
@@ -33,7 +39,7 @@ func (s *Service) SaveFileInfo(data []byte) error {
 		return err
 	}
 	s.cache.Set(&finfo)
-	err = storage.Save(&finfo)
+	err = s.storage.Save(&finfo)
 	if err != nil {
 		return err
 	}
