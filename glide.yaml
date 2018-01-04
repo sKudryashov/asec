@@ -1,0 +1,6 @@
+package: github.com/sKudryashov/asec
+import:
+- package: github.com/spf13/cobra
+  version: v0.0.1
+  subpackages:
+  - cobra
