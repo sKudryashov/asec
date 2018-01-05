@@ -1,0 +1,48 @@
+version: '2.1'
+volumes:
+  db:
+    driver: local
+services:
+  fileserver:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile-fileserver
+    image: 'sfera/fileserver:latest'
+    environment:
+      - STORAGE_DB=asc
+      - STORAGE_USER=postgres
+      - STORAGE_PASSWORD=postgres
+      - STORAGE_PORT=5432
+      - STORAGE_HOST=database
+    links:
+      - db:database
+    ports:
+      - "80:80"
+      - "9090:9090"
+      - "443:443"
+  fileminer:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile-fileminer
+    image: 'sfera/fileminer:latest'
+    links: 
+      - fileserver:fileserver
+  fileinforeader:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile-fileinforeader
+    image: 'sfera/fileinforeader:latest'
+    links: 
+      - fileserver:fileserver
+  db:
+    image: 'postgres:9.5'
+    restart: always
+    environment:
+      - POSTGRES_DB=asc
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_INITDB_ARGS=--encoding=UTF8 --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - db:/var/lib/postgresql/data/pgdata 

@@ -1,0 +1,11 @@
+FROM golang:1.9.2-alpine3.7
+
+MAINTAINER Sergey Kudryashov <s.a.kudryashov@gmail.com>
+RUN echo $GOPATH
+COPY ./ /go/src/github.com/sKudryashov/asec
+WORKDIR /go/src/github.com/sKudryashov/asec
+
+RUN go install -v github.com/sKudryashov/asec/fileminer/cmd/servd
+RUN go install -v github.com/sKudryashov/asec/fileminer/cmd/miner
+
+ENTRYPOINT [ "servd" ]
