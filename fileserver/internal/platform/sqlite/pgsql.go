@@ -38,14 +38,15 @@ func NewStorage() *Storage {
 
 // Save saves data inside the storage
 func (s *Storage) Save(m *model.FileInfo) error {
-	s.mu.Lock()
-	_, err := s.database.Exec("CREATE TABLE IF NOT EXISTS finfo (id SERIAL PRIMARY KEY, name TEXT, mode TEXT, mod_time TEXT, size TEXT)")
-	s.mu.Unlock()
-	if err != nil {
-		println(".err1", err.Error())
-		return err
-	}
-	//fine-grained lock
+	var err error
+	// s.mu.Lock()
+	// _, err = s.database.Exec("CREATE TABLE IF NOT EXISTS finfo (id SERIAL PRIMARY KEY, name TEXT, mode TEXT, mod_time TEXT, size TEXT)")
+	// s.mu.Unlock()
+	// if err != nil {
+	// 	println(".err1", err.Error())
+	// 	return err
+	// }
+
 	s.mu.Lock()
 	stmt := "INSERT INTO finfo (name, mode, mod_time, size) VALUES ($1, $2, $3, $4)"
 	_, err = s.database.Exec(stmt, m.Name, m.Mode, m.ModTime, m.Size)

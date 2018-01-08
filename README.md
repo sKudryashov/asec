@@ -1,4 +1,3 @@
-
 make cmdserver
 servcli --help
 servcli --port=80 --autotls=false

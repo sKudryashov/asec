@@ -14,3 +14,5 @@ cmdminer:
 	docker exec -ti docker_fileminer_1 /bin/sh
 cmdreader:
 	docker exec -ti docker_fileinforeader_1 /bin/sh
+initdb:
+	cat migrations/dump.sql | docker exec -i docker_db_1 psql -U postgres --dbname=asc

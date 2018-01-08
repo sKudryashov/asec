@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS finfo (id SERIAL PRIMARY KEY, name TEXT, mode TEXT, mod_time TEXT, size TEXT)
